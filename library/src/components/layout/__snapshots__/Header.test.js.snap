@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Header /> renders correctly enzyme 1`] = `
+<header
+  style={
+    Object {
+      "background": "#333",
+      "color": "#fff",
+      "padding": "10px",
+      "textAlign": "center",
+    }
+  }
+>
+  <h1>
+     Library Management System 
+  </h1>
+  View Books in the Library 
+</header>
+`;
+
+exports[`<Header /> should render correctly as we know it 1`] = `
+<header
+  style={
+    Object {
+      "background": "#333",
+      "color": "#fff",
+      "padding": "10px",
+      "textAlign": "center",
+    }
+  }
+>
+  <h1>
+     Library Management System 
+  </h1>
+  View Books in the Library 
+</header>
+`;
