@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import BookList from "./components/BookList";
 import getBookList from "./getBookList";
-
+import axios from "axios";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import borrowedListView from "./components/pages/borrowedListView";
 class BookListView extends Component {
   state = {
     books: [{}],
@@ -11,19 +13,46 @@ class BookListView extends Component {
       this.setState(resp.data);
     });
   }
+  borrowIt = (id) =>
+    axios
+      .post("/Library/1/borrow/" + id)
+      .then(() =>
+        this.setState({
+          books: [...this.state.books.filter((book) => book.id !== id)],
+        })
+      )
+      .catch((error) => console.log(error.response.data));
+
   render() {
     const bookList = this.state.books;
-    const showEmptyorBookList= () => { 
+    const showEmptyorBookList = () => {
       let showUserHTML;
       bookList.length === 0
         ? (showUserHTML = (
             <div className="emptyLibrary">"The Library is Empty!"</div>
           ))
-        : (showUserHTML = <BookList bookList={bookList} />);
+        : (showUserHTML = (
+            <div>
+              Books in the Library
+              <BookList bookList={bookList} borrowIt={this.borrowIt} />
+            </div>
+          ));
       return showUserHTML;
-    }
-    
-    return <React.Fragment>{showEmptyorBookList()}</React.Fragment>;
+    };
+
+    return (
+      <div>
+        <Route
+          exact
+          path="/"
+          render={(props) => (
+            <React.Fragment>{showEmptyorBookList()}</React.Fragment>
+          )}
+        />
+
+        <Route path="/borrowedList" component={borrowedListView} />
+      </div>
+    );
   }
 }
 

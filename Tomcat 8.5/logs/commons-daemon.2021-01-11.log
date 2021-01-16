@@ -1,0 +1,28 @@
+[2021-01-11 07:57:12] [info]  [17904] Apache Commons Daemon procrun (1.2.3.0 32-bit) started.
+[2021-01-11 07:57:12] [info]  [17904] Installing service 'Tomcat8' name 'Apache Tomcat 8.5 Tomcat8'.
+[2021-01-11 07:57:12] [info]  [17904] Service 'Tomcat8' installed.
+[2021-01-11 07:57:12] [info]  [17904] Apache Commons Daemon procrun finished.
+[2021-01-11 07:57:12] [info]  [19936] Apache Commons Daemon procrun (1.2.3.0 32-bit) started.
+[2021-01-11 07:57:12] [info]  [19936] Updating service...
+[2021-01-11 07:57:13] [info]  [19936] Updated service 'Tomcat8'.
+[2021-01-11 07:57:13] [info]  [19936] Finished updating service 'Tomcat8'.
+[2021-01-11 07:57:13] [info]  [19936] Apache Commons Daemon procrun finished.
+[2021-01-11 07:57:13] [info]  [14116] Apache Commons Daemon procrun (1.2.3.0 32-bit) started.
+[2021-01-11 07:57:13] [info]  [14116] Updating service...
+[2021-01-11 07:57:13] [info]  [14116] Updated service 'Tomcat8'.
+[2021-01-11 07:57:13] [info]  [14116] Finished updating service 'Tomcat8'.
+[2021-01-11 07:57:13] [info]  [14116] Apache Commons Daemon procrun finished.
+[2021-01-11 07:57:13] [info]  [15608] Apache Commons Daemon procrun (1.2.3.0 32-bit) started.
+[2021-01-11 07:57:13] [info]  [15608] Updating service...
+[2021-01-11 07:57:13] [info]  [15608] Updated service 'Tomcat8'.
+[2021-01-11 07:57:13] [info]  [15608] Finished updating service 'Tomcat8'.
+[2021-01-11 07:57:13] [info]  [15608] Apache Commons Daemon procrun finished.
+[2021-01-11 07:57:13] [info]  [ 8892] Apache Commons Daemon procrun (1.2.3.0 32-bit) started.
+[2021-01-11 07:57:13] [info]  [ 8892] Updating service...
+[2021-01-11 07:57:13] [info]  [ 8892] Updated service 'Tomcat8'.
+[2021-01-11 07:57:13] [info]  [ 8892] Finished updating service 'Tomcat8'.
+[2021-01-11 07:57:13] [info]  [ 8892] Apache Commons Daemon procrun finished.
+[2021-01-11 07:57:16] [info]  [14280] Apache Commons Daemon procrun (1.2.3.0 32-bit) started.
+[2021-01-11 07:57:16] [info]  [14280] Running Service 'Tomcat8'...
+[2021-01-11 07:57:16] [info]  [18208] Starting service...
+[2021-01-11 07:57:17] [info]  [18208] Service started in 1461 milliseconds.

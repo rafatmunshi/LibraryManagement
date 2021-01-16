@@ -1,17 +1,17 @@
-import React from 'react';
-
+import React from "react";
+import { Link } from "react-router-dom";
+import "../../App.css";
 const Header = () => {
-    return ( <header style = { headerStyle } >
-        <h1> Library Management System </h1>
-        View Books in the Library </header>
-    )
+  return (
+    <header>
+      <h1> Library Management System </h1>
+      <Link className="link" to="/">
+              View Library Books
+      </Link> {" "}|{" "}    
+      <Link className="link" to="/borrowedList">
+          Your Borrowed List
+      </Link>
+    </header>
+  );
 };
-
-const headerStyle = {
-    background: "#333",
-    color: '#fff',
-    textAlign: 'center',
-    padding: '10px'
-};
-
 export default Header;

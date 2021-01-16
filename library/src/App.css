@@ -31,9 +31,20 @@ a {
     background: #666;
 }
 
-#header {
-    background: "#333";
-    color: '#fff';
-    text-align: 'center';
-    padding: '10px';
+header {
+    background: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+}
+
+.link {
+    color: #fff;
+    text-decoration: none
+}
+
+.eachBook {
+    background: #F4F4F4;
+    padding: 10px;
+    border-bottom: 1px #ccc dotted
 }

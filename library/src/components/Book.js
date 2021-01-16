@@ -1,19 +1,13 @@
 import React, { Component } from "react";
 
 export class Book extends Component {
-  getStyle = () => {
-    return {
-      background: "#F4F4F4",
-      padding: "10px",
-      borderBottom: "1px #ccc dotted",
-    };
-  };
-
-  
   render() {
-    const loadPageorShowBook = () => { 
-      let showUserHTML;
-      const { id, name, author } = this.props.book;
+    const loadPageorShowBook = () => {
+      let showUserHTML, displayBorrowButton;
+      const { id, name, author, borrowerId } = this.props.book;
+      borrowerId == "0"
+        ? (displayBorrowButton = "1")
+        : (displayBorrowButton = "0");
       if (!name == true) {
         showUserHTML = (
           <div className="loading">
@@ -24,13 +18,22 @@ export class Book extends Component {
         showUserHTML = (
           <p id={id} className="book">
             {name}, {author}
+            {displayBorrowButton !== "0" && (
+              <button
+                onClick={this.props.borrowIt.bind(this, id)}
+                class="borrowButton"
+                style={{ float: "right" }}
+              >
+                Borrow
+              </button>
+            )}
           </p>
         );
       }
       return showUserHTML;
-    }
+    };
 
-    return <div style={this.getStyle()}>{loadPageorShowBook()}</div>;
+    return <div className="eachBook">{loadPageorShowBook()}</div>;
   }
 }
 

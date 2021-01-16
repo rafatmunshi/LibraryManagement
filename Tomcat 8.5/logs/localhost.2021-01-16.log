@@ -1,0 +1,16 @@
+16-Jan-2021 09:42:11.397 INFO [localhost-startStop-1] org.apache.catalina.core.ApplicationContext.log 1 Spring WebApplicationInitializers detected on classpath
+16-Jan-2021 09:42:11.416 INFO [localhost-startStop-1] org.apache.catalina.core.ApplicationContext.log Initializing Spring root WebApplicationContext
+16-Jan-2021 09:42:12.356 INFO [localhost-startStop-1] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'appServlet'
+16-Jan-2021 09:43:29.134 INFO [localhost-startStop-2] org.apache.catalina.core.ApplicationContext.log Destroying Spring FrameworkServlet 'appServlet'
+16-Jan-2021 09:43:29.161 INFO [localhost-startStop-2] org.apache.catalina.core.ApplicationContext.log Closing Spring root WebApplicationContext
+16-Jan-2021 09:43:57.765 INFO [localhost-startStop-1] org.apache.catalina.core.ApplicationContext.log 1 Spring WebApplicationInitializers detected on classpath
+16-Jan-2021 09:43:57.780 INFO [localhost-startStop-1] org.apache.catalina.core.ApplicationContext.log Initializing Spring root WebApplicationContext
+16-Jan-2021 09:43:58.181 INFO [localhost-startStop-1] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'appServlet'
+16-Jan-2021 09:52:17.145 INFO [localhost-startStop-1] org.apache.catalina.core.ApplicationContext.log 1 Spring WebApplicationInitializers detected on classpath
+16-Jan-2021 09:52:17.164 INFO [localhost-startStop-1] org.apache.catalina.core.ApplicationContext.log Initializing Spring root WebApplicationContext
+16-Jan-2021 09:52:17.612 INFO [localhost-startStop-1] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'appServlet'
+16-Jan-2021 10:27:57.863 INFO [localhost-startStop-2] org.apache.catalina.core.ApplicationContext.log Destroying Spring FrameworkServlet 'appServlet'
+16-Jan-2021 10:27:57.885 INFO [localhost-startStop-2] org.apache.catalina.core.ApplicationContext.log Closing Spring root WebApplicationContext
+16-Jan-2021 13:39:47.065 INFO [localhost-startStop-1] org.apache.catalina.core.ApplicationContext.log 1 Spring WebApplicationInitializers detected on classpath
+16-Jan-2021 13:39:47.081 INFO [localhost-startStop-1] org.apache.catalina.core.ApplicationContext.log Initializing Spring root WebApplicationContext
+16-Jan-2021 13:39:47.439 INFO [localhost-startStop-1] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'appServlet'
