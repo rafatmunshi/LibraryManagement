@@ -9,8 +9,8 @@ import com.library.Model.Book;
 
 public interface BookService {
 
-	public List<Book> listBooks();
-	public List<Book> getBorrowedBooksList();
+	public List<Book> getLibraryBooks();
+	public List<Book> getBorrowedBooks();
 	public ResponseEntity<String> borrowBook(String id);
 	
 }

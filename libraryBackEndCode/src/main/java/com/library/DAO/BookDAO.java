@@ -8,9 +8,7 @@ import com.library.Model.Book;
 
 
 public interface BookDAO {
-
-	public List<Book> listBooks();
-
+	public List<Book> getLibraryBooks();
 	public ResponseEntity<String> borrowBook(String id);
-	public List<Book> getBorrowedBooksList();
+	public List<Book> getBorrowedBooks();
 }

@@ -40,27 +40,27 @@ public class BookServiceUnitTest {
 			ex.printStackTrace();
 		}
 	}
-
+	@DisplayName("On call to list library books")
 	@Test
-	public void testMethodtolistBooks() {
+	public void testMethodforLibraryBooks() {
 		List<Book> books = createMockBooksList();
 		// arrange
-		when(bookDao.listBooks()).thenReturn(books);
+		when(bookDao.getLibraryBooks()).thenReturn(books);
 		// Act
-		List<Book> bookResponse = bookService.listBooks();
+		List<Book> response = bookService.getLibraryBooks();
 		// Assert
-		Assert.assertEquals("should get books", books, bookResponse);
+		Assert.assertEquals(prop.getProperty("book.return"), books, response);
 	}
-
+	@DisplayName("On call to list borrowed books")
 	@Test
 	public void testMethodtforBorrowedBooks() {
 		List<Book> books = createMockBooksList();
 		// arrange
-		when(bookDao.getBorrowedBooksList()).thenReturn(books);
+		when(bookDao.getBorrowedBooks()).thenReturn(books);
 		// Act
-		List<Book> bookResponse = bookService.getBorrowedBooksList();
+		List<Book> response = bookService.getBorrowedBooks();
 		// Assert
-		Assert.assertEquals("should get books", books, bookResponse);
+		Assert.assertEquals(prop.getProperty("book.return"), books, response);
 	}
 
 	@DisplayName("On request to Borrow a book")

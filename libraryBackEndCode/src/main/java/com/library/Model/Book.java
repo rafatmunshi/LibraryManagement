@@ -19,27 +19,27 @@ public class Book {
 	private String name;
 	@Column(name = "author")
 	private String author;
-	@Column(name = "borrower_id")
-	private String borrowerId;
+	private String borrowerId="0";
 
-	public Book(String id, String name, String author, String borrowerId) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.author = author;
-		this.borrowerId = borrowerId;
-	}
-
-	public Book() {
-		super();
-	}
 
 	public String getBorrowerId() {
 		return borrowerId;
 	}
 
-	public void setBorrowerId(String string) {
-		this.borrowerId = string;
+	public void setBorrowerId(String borrowerId) {
+		this.borrowerId = borrowerId;
+	}
+
+	public Book(String id, String name, String author, String borrower_id) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.author = author;
+		this.borrowerId = borrower_id;
+	}
+
+	public Book() {
+		super();
 	}
 
 	public void setAuthor(String author) {

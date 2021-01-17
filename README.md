@@ -11,7 +11,7 @@ Library BackEnd-
 3. Open provided Tomcat 8.5/bin and run startup. (it has the required war file in its webapp folder so runs the project on startup on localhost:8080 by default)
 4. Install and start MySQL. (works with default settings. username- "root", blank password on localhost:3306)
 5. Import in it the library.sql file provided. This has the table and entries needed to run the BackEnd Integration tests.
-(Please note, after one run of the integration tests, the table state has to be reset back to the earlier state- borrower_id has to be made 0 for both books to rerun the integration tests again successfully)
+(Please note, after one run of the integration tests, the table state has to be reset back to the earlier state- borrower_id has to be made 0 for both book copies to rerun the integration tests again successfully)
 6. To check the APIs only, do the appropriate endpoint calls from Postman.
 
 Story 1-
@@ -137,7 +137,49 @@ DataBase- MySQL
 
 The choice of an RDBMS is to maintain ACID properties which may be crucial for an application like Library Management System with concurrent accesses and isolation requirements.
 
-Coding Best Practices-
+Story 3-
+User can borrow a copy of a book from the library
+Given , there are more than one copy of a book in the library
+When , I choose a book to add to my borrowed list
+Then , one copy of the book is added to my borrowed list
+And , the library has at least one copy of the book left
+Given , there is only one copy of a book in the library
+When , I choose a book to add to my borrowed list
+Then , one copy of the book is added to my borrowed list
+And , the book is removed from the library
+Note:
+a. Only 1 copy of a book can be borrowed by a User at any point of time
+
+UI steps to see in browser-
+This time since the user borrows a copy of the book, on click of borrow button and successful borrowed response from server, the book again gets removed from the list for a better user experience by showing immediate feedback to the user. When the page is visited again though, the book is still visible if any/some copies may still be available. If the user again clicks on borrow, an alert informs the user that "You have borrowed this book already."
+
+Design considerations-
+The Table structures-
+To incorporate multiple copies of the same book and a user borrowing a copy of a book instead of the single books table, two tables are created for mapping copies with the books.
+The books table is-
+ID | name | author
+
+The borrower_id is removed from here and only data specific to each book has to be in this table.
+
+The book_copies table is-
+copy_id | book_id | borrower_id
+
+The primary key is copy_id which is mapped to the foreign key book_id in a many to one relationship. The borrower_id has a one to one relationship with the copy_id. The borrower_id and the book_id is dependent on the copy_id which makes this in the BCNF as well. 
+
+Assumptions-
+It is assumed that the integrity of the database on foreign key of book_id will always be maintained. Sample entries in the database tables are provided for testing UI, API calls and the BackEnd integrity test cases with.
+On borrow of a book, a copy is chosen at random and assigned to the user. The book borrowed is assumed to be the copy of the book borrowed, hence the next the same book_id cannot be issued whose copy_id already has the same borrower_id.
+
+API design and Front End- 
+GET /bookList
+returns only books which have atleast once copy with borrower_id 0, using the same response body structure with id meaning the book_id as before.
+POST - /{userid}/borrow/{bookid}
+assigns one copy at random of the bookid whose borrower_id was 0, to the current user with id 1.
+GET /{userid}/borrowedBookList
+returns only books which have copies with borrower_id same as the user_id (1 in this case), using the same response body structure with id meaning the book_id as before
+No change required in API response structure and hence the FrontEnd handling the response as generating the API response is dealt with in the BackEnd using appropriate SQL join queries between the two tables and refactoring the Model Java Class to now map to the other table's column value instead, from the SQL query result.
+
+Coding Best Practices used-
 Two different UI page views are created for separation of concerns.
 All JUnit tests have display and assert messages in such a way as to form well readable english sentences.
 Some comments are added only for assignment demo purposes.

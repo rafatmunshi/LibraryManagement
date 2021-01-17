@@ -58,7 +58,6 @@ class BookListView extends Component {
             <React.Fragment>{showEmptyorBookList()}</React.Fragment>
           )}
         />
-
         <Route path="/borrowedList" component={borrowedListView} />
       </div>
     );

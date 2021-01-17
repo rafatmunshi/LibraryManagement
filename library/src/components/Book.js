@@ -21,7 +21,7 @@ export class Book extends Component {
             {displayBorrowButton !== "0" && (
               <button
                 onClick={this.props.borrowIt.bind(this, id)}
-                class="borrowButton"
+                className="borrowButton"
                 style={{ float: "right" }}
               >
                 Borrow

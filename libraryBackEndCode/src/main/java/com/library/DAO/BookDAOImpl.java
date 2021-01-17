@@ -34,9 +34,9 @@ public class BookDAOImpl implements BookDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Book> listBooks() {
+	public List<Book> getLibraryBooks() {
 		Session session = this.sessionFactory.openSession();
-		SQLQuery<Book> query = session.createSQLQuery("SELECT * FROM BOOKS where borrower_id=\"0\"");
+		SQLQuery<Book> query = session.createSQLQuery("SELECT b.id, b.name, b.author, c.borrower_id as borrowerId FROM BOOKS b, book_copies c where b.id= (SELECT distinct c.book_id where c.borrower_id=\"0\") group by b.id");
 		query.addEntity(Book.class);
 		List<Book> books = query.list();
 		session.close();
@@ -45,9 +45,9 @@ public class BookDAOImpl implements BookDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Book> getBorrowedBooksList() {
+	public List<Book> getBorrowedBooks() {
 		Session session = this.sessionFactory.openSession();
-		SQLQuery query = session.createSQLQuery("SELECT * FROM BOOKS where borrower_id=\"1\"");
+		SQLQuery query = session.createSQLQuery("SELECT b.id, b.name, b.author, c.borrower_id as borrowerId FROM BOOKS b, book_copies c where b.id= (SELECT distinct c.book_id where c.borrower_id=\"1\") group by b.id");
 		query.addEntity(Book.class);
 		List<Book> borrowedBooks = query.list();
 		session.close();
@@ -91,8 +91,9 @@ public class BookDAOImpl implements BookDAO {
 
 	private void checkBookBorrowed(String id) throws BookIsBorrowedException {
 		Session session = this.sessionFactory.openSession();
-		SQLQuery doesBookExist = session.createSQLQuery("Select borrower_id from BOOKS where id=\"" + id + "\"");
-		Boolean isBookBorrowed = doesBookExist.getSingleResult().toString().equals("0") ? false : true;
+		//Query for userid 1 for demo
+		SQLQuery doesBookExist = session.createSQLQuery("Select count(*) from BOOK_COPIES where book_id=\""+id+"\" AND borrower_id=\"1\"");
+		Boolean isBookBorrowed = ((BigInteger) doesBookExist.uniqueResult()).intValue() == 0 ? false :true;
 		if (isBookBorrowed)
 			throw new BookIsBorrowedException("Book is already borrowed");
 		session.close();
@@ -120,7 +121,7 @@ public class BookDAOImpl implements BookDAO {
 		Session session = this.sessionFactory.openSession();
 		Transaction txn = session.beginTransaction();
 		// user id hardcoded to 1 here for demo
-		SQLQuery updateQuery = session.createSQLQuery("UPDATE BOOKS SET borrower_id=\"1\" where id=\"" + id + "\"");
+		SQLQuery updateQuery = session.createSQLQuery("UPDATE BOOK_COPIES SET borrower_id=\"1\" where book_id=\""+id+"\" AND borrower_id=\"0\" LIMIT 1");
 		updateQuery.executeUpdate();
 		txn.commit();
 		session.close();
@@ -130,7 +131,7 @@ public class BookDAOImpl implements BookDAO {
 		Session session = this.sessionFactory.openSession();
 		// user id 1 is mocked for demo
 		SQLQuery createUserBorrowedEntry = session
-				.createSQLQuery("Select count(*) from BOOKS where borrower_id=\"1\"");
+				.createSQLQuery("Select count(*) from BOOK_COPIES where borrower_id=\"1\"");
 		Integer userBorrowCount = ((BigInteger) createUserBorrowedEntry.uniqueResult()).intValue();
 		if (userBorrowCount >= 2)
 			throw new UserBorrowLimitExceededException("Borrow Limit Exceeded");

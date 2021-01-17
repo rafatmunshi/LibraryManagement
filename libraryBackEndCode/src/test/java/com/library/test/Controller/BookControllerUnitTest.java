@@ -41,14 +41,14 @@ public class BookControllerUnitTest {
 		}
 	}
 
-	@DisplayName("On call to list books")
+	@DisplayName("On call to list library books")
 	@Test
-	public void testMethodtolistBooks() {
+	public void testMethodforLibraryBooks() {
 		List<Book> books = createMockBooksList();
 		// Arrange
-		when(bookService.listBooks()).thenReturn(books);
+		when(bookService.getLibraryBooks()).thenReturn(books);
 		// Act
-		String response = bookController.listBooks();
+		String response = bookController.getLibraryBooks();
 		// Assert
 		Assert.assertTrue(prop.getProperty("book.return"), response.contains("books"));
 		Assert.assertTrue(prop.getProperty("book.library"), response.contains("borrowerId\": \"0"));
@@ -60,9 +60,9 @@ public class BookControllerUnitTest {
 		List<Book> books = createMockBooksList();
 		books.get(0).setBorrowerId("1");
 		// Arrange
-		when(bookService.getBorrowedBooksList()).thenReturn(books);
+		when(bookService.getBorrowedBooks()).thenReturn(books);
 		// Act
-		String response = bookController.getBorrowedBooksList(null);
+		String response = bookController.getBorrowedBooks(null);
 		// Assert
 		Assert.assertTrue(prop.getProperty("book.return"), response.contains("books"));
 		Assert.assertTrue(prop.getProperty("borrowed.only"), !response.contains("borrowerId\": \"0"));

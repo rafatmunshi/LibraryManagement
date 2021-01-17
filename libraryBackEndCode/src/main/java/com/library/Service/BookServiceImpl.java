@@ -30,14 +30,14 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	@Transactional
-	public List<Book> listBooks() {
-		return this.bookDAO.listBooks();
+	public List<Book> getLibraryBooks() {
+		return this.bookDAO.getLibraryBooks();
 	}
 
 	@Override
 	@Transactional
-	public List<Book> getBorrowedBooksList() {
-		return this.bookDAO.getBorrowedBooksList();
+	public List<Book> getBorrowedBooks() {
+		return this.bookDAO.getBorrowedBooks();
 	}
 
 	@Override

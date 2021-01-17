@@ -41,8 +41,8 @@ public class BookController {
 	}
 
 	@RequestMapping(value = "/bookList", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public String listBooks() {
-		return toJSONString(this.bookService.listBooks());
+	public String getLibraryBooks() {
+		return toJSONString(this.bookService.getLibraryBooks());
 	}
 
 	@RequestMapping(value = "/{userid}/borrow/{bookid}", method = RequestMethod.POST)
@@ -53,8 +53,8 @@ public class BookController {
 	}
 
 	@RequestMapping(value = "/{user-id}/borrowedBookList", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public String getBorrowedBooksList(Model model) {
-		return toJSONString(this.bookService.getBorrowedBooksList());
+	public String getBorrowedBooks(Model model) {
+		return toJSONString(this.bookService.getBorrowedBooks());
 	}
 
 	public String toJSONString(List<Book> books) {
