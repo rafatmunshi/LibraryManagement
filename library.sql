@@ -41,7 +41,8 @@ CREATE TABLE `books` (
 
 INSERT INTO `books` (`id`, `name`, `author`, `borrower_id`) VALUES
 ('1', 'Head First Design Patterns', 'Eric Freeman & Elizabeth Robson', '0'),
-('2', ' Introduction to Algorithms', 'Thomas H. Corman', '0');
+('2', ' Introduction to Algorithms', 'Thomas H. Corman', '0'),
+('4', 'Designing Data-Intensive Applications', 'Martin Kleppmann', '0');
 
 --
 -- Indexes for dumped tables

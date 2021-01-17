@@ -21,7 +21,16 @@ class BookListView extends Component {
           books: [...this.state.books.filter((book) => book.id !== id)],
         })
       )
-      .catch((error) => console.log(error.response.data));
+      .catch((error) => {
+        console.log(error.response.data)
+        if (error.response.data === "Borrow Limit Exceeded") {
+            alert("You have maximum books borrowed. Please return any before borrowing more.")
+        }
+        else
+          if (error.response.data === "Book is already borrowed") { 
+            alert("You have borrowed this book already.");
+          }
+      });
 
   render() {
     const bookList = this.state.books;

@@ -71,11 +71,12 @@ UI steps to see in browser-
 Open the http://localhost:3000/ on the browser. 
 The list of books in the library is visible here if any  once the call to the API is complete. There are two links in the header. On click of the "Your Borrowed List" text, the borrowed list of the user appears if any else a message- "Your borrowed list is empty" appears.
 On click of View Library Books text again, the list of books in the library appears.
+If a user tries to borrow more than two books, an alert message is shown "You have maximum books borrowed. Please return any before borrowing more."
 
 Design considerations-
 Assumptions- 
 The condition of each user's borrowing limit signals that there may be multiple users and it is assumed that this functionality of different user ids is supposed to be incorporated using other stories. For testing and demo in this story, a user-id of 1 is used.
-For this story only the books available to be borrowed are to be displayed in the list as they are the ones which are present in the library. The API call is the same as in the first story, with an addition of the borrowerId flag.
+For this story only the books available to be borrowed are to be displayed in the list as they are the ones which are present in the library. The API call is the same as in the first story, with an addition of the borrowerId flag. It is assumed that a borrowerId of 0 will never exist in the system and is taken as a flag for a book which is not yet borrowed by any user yet.
 
 Architecture- The Front End is decoupled from the BackEnd. The Front End makes the REST API calls to the BackEnd which deals with the Database to give the correct response as expected. This decoupling avoids tight cohesion and provides more flexibility and maintainability.
 The Architecture is depicted in the Architecture.png image.
