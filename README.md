@@ -9,7 +9,7 @@
 - Library BackEnd-
 1. Install JDK.
 2. Set JDK and JRE environment variables
-3. Open provided Tomcat 8.5/bin and run startup. (it has the required war file in its webapp folder so runs the project on startup on localhost:8080 by default)
+3. Install Tomcat Server. Paste the library war file in its webapps folder. Open Tomcat/bin and run startup. (runs the project on startup on localhost:8080 by default)
 4. Install and start MySQL. (works with default settings. username- "root", blank password on localhost:3306)
 5. Import in it the library.sql file provided. This has the table and entries needed to run the BackEnd Integration tests.
 6. To check the APIs only, do the appropriate endpoint calls from Postman.
