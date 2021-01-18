@@ -76,7 +76,7 @@ If a user tries to borrow more than two books, an alert message is shown "You ha
 
 - Design considerations-
 - Assumptions- 
-The condition of each user's borrowing limit signals that there may be multiple users and it is assumed that this functionality of different user ids is supposed to be incorporated using other stories. For testing and demo in this story, a user-id of 1 is used.
+The condition of each user's borrowing limit signals that there may be multiple users and it is assumed that this functionality of different user ids is supposed to be incorporated using other stories. For testing and demo in this story, a user-id of 1 is used.  
 For this story only the books available to be borrowed are to be displayed in the list as they are the ones which are present in the library. The API call is the same as in the first story, with an addition of the borrowerId flag. It is assumed that a borrowerId of 0 will never exist in the system and is taken as a flag for a book which is not yet borrowed by any user yet.
 
 - Architecture- The Front End is decoupled from the BackEnd. The Front End makes the REST API calls to the BackEnd which deals with the Database to give the correct response as expected. This decoupling avoids tight cohesion and provides more flexibility and maintainability.  
@@ -175,17 +175,19 @@ copy_id | book_id | borrower_id
 ```
 The primary key is copy_id which is mapped to the foreign key book_id in a many to one relationship. The borrower_id has a one to one relationship with the copy_id. The borrower_id and the book_id is dependent on the copy_id which makes this in the BCNF as well. 
 
-- Assumptions-
+- Assumptions-  
 It is assumed that the integrity of the database on foreign key of book_id will always be maintained. Sample entries in the database tables are provided for testing UI, API calls and the BackEnd integrity test cases with.  
 On borrow of a book, a copy is chosen at random and assigned to the user. The book borrowed is assumed to be the copy of the book borrowed, hence the next the same book_id cannot be issued whose copy_id already has the same borrower_id.  
 
-- API design and Front End-   
+- API design  
 GET /bookList  
 returns only books which have atleast once copy with borrower_id 0, using the same response body structure with id meaning the book_id as before.  
 POST - /{userid}/borrow/{bookid}  
 assigns one copy at random of the bookid whose borrower_id was 0, to the current user with id 1.  
 GET /{userid}/borrowedBookList  
 returns only books which have copies with borrower_id same as the user_id (1 in this case), using the same response body structure with id meaning the book_id as before  
+   
+-  Front End  
 No change required in API response structure and hence the FrontEnd handling the response as generating the API response is dealt with in the BackEnd using appropriate SQL join queries between the two tables and refactoring the Model Java Class to now map to the other table's column value instead, from the SQL query result.  
 From the UI, the user is not able to borrow the same book multiple times or more than two books as the state always changes and is disallowed. From the API endpoint, if the user is trying to borrow the same book again, a BAD_REQUEST response with message "Book is already borrowed" is returned (Backend handling as POST is not idempotent). If the user tries to borrow a book which does not exist in the books table, using the endpoint, the response BAD_REQUEST "Book Does Not Exist" is returned.  
 
@@ -231,5 +233,5 @@ From the UI, the user is not able to return the same book multiple times as the 
 * You Ain't Gonna Need It
 
 ## Future work-
-For the Front End, instead of a simple alert, a react modal could be implemented for better UX.
-The functionality for different user ids can be incorporated with authentication and concurrency in further stories.
+For the Front End, instead of a simple alert, a react modal could be implemented for better UX.  
+The functionality for different user ids can be incorporated with authentication and concurrency in further stories.  
