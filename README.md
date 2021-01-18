@@ -1,4 +1,6 @@
 # Library Management System
+This project demonstrates development in the agile process with user stories and lean development in each story. Test Driven Development methodology and clean coding principles are used to come up with tested and quality code.
+
 ## To run this project-
 - Library Front End-
 1. Install Node.js
