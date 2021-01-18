@@ -46,5 +46,18 @@ header {
 .eachBook {
     background: #F4F4F4;
     padding: 10px;
-    border-bottom: 1px #ccc dotted
+    border-bottom: 1px #ccc dotted;
+    clear: both;
+}
+
+.returnAll {
+    float: right;
+}
+
+.borrowButton {
+    float: right;
+}
+
+.returnButton {
+    float: right;
 }

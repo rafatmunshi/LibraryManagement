@@ -12,7 +12,10 @@ exports[`<Header /> should render correctly as we know it 1`] = `
   >
     View Library Books
   </Link>
-   | 
+   
+   
+  |
+   
   <Link
     className="link"
     replace={false}

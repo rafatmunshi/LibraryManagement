@@ -19,8 +19,7 @@ public class Book {
 	private String name;
 	@Column(name = "author")
 	private String author;
-	private String borrowerId="0";
-
+	private String borrowerId = "0";
 
 	public String getBorrowerId() {
 		return borrowerId;

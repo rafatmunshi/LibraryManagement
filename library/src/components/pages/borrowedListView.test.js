@@ -8,8 +8,8 @@ import {
   act,
   waitForElementToBeRemoved,
 } from "@testing-library/react";
-import getBorrowedList from "../../getBorrowedList";
-jest.mock("../../getBorrowedList");
+import getBorrowedList from "./getBorrowedList";
+jest.mock("./getBorrowedList");
 
 test("should display Empty Library", async () => {
   const mockResponse = {
@@ -29,11 +29,12 @@ test("should display Empty Library", async () => {
     () => {
       expect(screen.getByText(/Empty/i)).toBeInTheDocument();
       expect(document.querySelector(".book")).toBe(null);
+      expect(screen.queryByText(/Return/i)).not.toBeInTheDocument();
     }
   );
 });
 
-test("should display the List of Books with borrow buttons", async () => {
+test("should display the List of Books with return buttons", async () => {
   const mockResponse = {
     status: 200,
     data: {
@@ -67,6 +68,9 @@ test("should display the List of Books with borrow buttons", async () => {
     () => {
       expect(document.querySelector(".book")).not.toBe(null);
       expect(document.querySelector(".borrowButton")).toBe(null);
+      expect(screen.getByText(/Return All/i)).toBeInTheDocument();
+      expect(document.querySelector(".returnButton")).not.toBe(null);
+      expect(screen.queryAllByText(/Return/i)[0]).toBeInTheDocument();
     }
   );
 });

@@ -2,14 +2,11 @@ package com.library.Controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,7 +20,7 @@ import com.library.Service.BookService;
 @Transactional
 @RestController
 public class BookController {
-// Dependency Injection
+	// Dependency Inversion
 	private BookService bookService;
 
 	public BookController(BookService bookService) {
@@ -46,14 +43,25 @@ public class BookController {
 	}
 
 	@RequestMapping(value = "/{userid}/borrow/{bookid}", method = RequestMethod.POST)
-	public ResponseEntity<String> borrowBook(@PathVariable("bookid") String id, Model model,
-			HttpServletResponse response) {
+	public ResponseEntity<String> borrowBook(@PathVariable("bookid") String id) {
 		ResponseEntity<String> responseEntity = this.bookService.borrowBook(id);
 		return responseEntity;
 	}
 
+	@RequestMapping(value = "/{userid}/return/{bookid}", method = RequestMethod.POST)
+	public ResponseEntity<String> returnBook(@PathVariable("bookid") String id) {
+		ResponseEntity<String> responseEntity = this.bookService.returnBook(id);
+		return responseEntity;
+	}
+
+	@RequestMapping(value = "/{userid}/returnAll", method = RequestMethod.POST)
+	public ResponseEntity<String> returnAllBooks() {
+		ResponseEntity<String> responseEntity = this.bookService.returnAllBooks();
+		return responseEntity;
+	}
+
 	@RequestMapping(value = "/{user-id}/borrowedBookList", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public String getBorrowedBooks(Model model) {
+	public String getBorrowedBooks() {
 		return toJSONString(this.bookService.getBorrowedBooks());
 	}
 

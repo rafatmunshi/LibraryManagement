@@ -28,6 +28,7 @@ test("should navigate between book list and borrowed list page", async () => {
   expect(screen.getAllByText(/Borrowed List/i)[0]).toBeInTheDocument();
 
   userEvent.click(screen.getByText(/View Library Books/i), leftClick);
+
   expect(screen.getAllByText(/the Library/i)[0]).toBeInTheDocument();
 });
 
@@ -39,16 +40,10 @@ describe("<Header />", () => {
   const useStateSpy = jest.spyOn(React, "useState");
   useStateSpy.mockImplementation((init) => [init, setState]);
 
-  beforeEach(() => {
-    wrapperForShallowCopy = Enzyme.shallow(<Header />);
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
+  wrapperForShallowCopy = Enzyme.shallow(<Header />);
   it("should render correctly as we know it", () => {
     const wrapperForShallowCopy = shallow(<Header />);
     expect(toJson(wrapperForShallowCopy)).toMatchSnapshot();
   });
+  jest.clearAllMocks();
 });

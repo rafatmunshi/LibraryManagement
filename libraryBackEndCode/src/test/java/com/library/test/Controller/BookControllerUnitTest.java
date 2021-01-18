@@ -27,13 +27,14 @@ import com.library.Service.BookService;
 public class BookControllerUnitTest {
 	@Mock
 	BookService bookService;
-
+	List<Book> books;
 	BookController bookController;
 	Properties prop = new Properties();
 
 	@Before
 	public void init() {
 		bookController = new BookController(bookService);
+		books = createMockBooksList();
 		try (InputStream input = new FileInputStream("./config.properties")) {
 			prop.load(input);
 		} catch (IOException ex) {
@@ -44,7 +45,6 @@ public class BookControllerUnitTest {
 	@DisplayName("On call to list library books")
 	@Test
 	public void testMethodforLibraryBooks() {
-		List<Book> books = createMockBooksList();
 		// Arrange
 		when(bookService.getLibraryBooks()).thenReturn(books);
 		// Act
@@ -56,13 +56,12 @@ public class BookControllerUnitTest {
 
 	@DisplayName("On call to list borrowed books")
 	@Test
-	public void testMethodtforBorrowedBookList() {
-		List<Book> books = createMockBooksList();
+	public void testMethodforBorrowedBookList() {
 		books.get(0).setBorrowerId("1");
 		// Arrange
 		when(bookService.getBorrowedBooks()).thenReturn(books);
 		// Act
-		String response = bookController.getBorrowedBooks(null);
+		String response = bookController.getBorrowedBooks();
 		// Assert
 		Assert.assertTrue(prop.getProperty("book.return"), response.contains("books"));
 		Assert.assertTrue(prop.getProperty("borrowed.only"), !response.contains("borrowerId\": \"0"));
@@ -82,7 +81,7 @@ public class BookControllerUnitTest {
 		// Arrange
 		when(bookService.borrowBook("12345")).thenReturn(responseEntity);
 		// Act
-		ResponseEntity<String> response = bookController.borrowBook("12345", null, null);
+		ResponseEntity<String> response = bookController.borrowBook("12345");
 		// Assert
 		Assert.assertEquals(prop.getProperty("borrow.limitreached"), HttpStatus.FORBIDDEN, response.getStatusCode());
 	}
@@ -93,7 +92,7 @@ public class BookControllerUnitTest {
 		// Arrange
 		when(bookService.borrowBook("12345")).thenReturn(responseEntity);
 		// Act
-		ResponseEntity<String> response = bookController.borrowBook("12345", null, null);
+		ResponseEntity<String> response = bookController.borrowBook("12345");
 		// Assert
 		Assert.assertEquals(prop.getProperty("book.borrowed"), HttpStatus.BAD_REQUEST, response.getStatusCode());
 
@@ -105,9 +104,50 @@ public class BookControllerUnitTest {
 		// Arrange
 		when(bookService.borrowBook("12345")).thenReturn(responseEntity);
 		// Act
-		ResponseEntity<String> response = bookController.borrowBook("12345", null, null);
+		ResponseEntity<String> response = bookController.borrowBook("12345");
 		// Assert
 		Assert.assertEquals(prop.getProperty("book.notexists"), HttpStatus.BAD_REQUEST, response.getStatusCode());
+	}
+
+	@DisplayName("On call to return a book")
+	@Test
+	public void testReturnBook() {
+		testBookExistsForReturn();
+		testBookBorrowedForReturn();
+	}
+
+	private void testBookBorrowedForReturn() {
+		ResponseEntity<String> responseEntity = new ResponseEntity<String>("Book is already borrowed",
+				HttpStatus.BAD_REQUEST);
+		// Arrange
+		when(bookService.returnBook("12345")).thenReturn(responseEntity);
+		// Act
+		ResponseEntity<String> response = bookController.returnBook("12345");
+		// Assert
+		Assert.assertEquals(prop.getProperty("book.borrowed"), HttpStatus.BAD_REQUEST, response.getStatusCode());
+	}
+
+	private void testBookExistsForReturn() {
+		ResponseEntity<String> responseEntity = new ResponseEntity<String>("Book Does Not Exist",
+				HttpStatus.BAD_REQUEST);
+		// Arrange
+		when(bookService.returnBook("12345")).thenReturn(responseEntity);
+		// Act
+		ResponseEntity<String> response = bookController.returnBook("12345");
+		// Assert
+		Assert.assertEquals(prop.getProperty("book.notexists"), HttpStatus.BAD_REQUEST, response.getStatusCode());
+	}
+
+	@DisplayName("On request to return all books")
+	@Test
+	public void testReturnAllBooks() {
+		ResponseEntity<String> responseEntity = new ResponseEntity<String>("Success", HttpStatus.OK);
+		// arrange
+		when(bookService.returnAllBooks()).thenReturn(responseEntity);
+		// Act
+		ResponseEntity<String> response = bookController.returnAllBooks();
+		// Assert
+		Assert.assertEquals(prop.getProperty("returnAll.success"), HttpStatus.OK, response.getStatusCode());
 	}
 
 	@Test

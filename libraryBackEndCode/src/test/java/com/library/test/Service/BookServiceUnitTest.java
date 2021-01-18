@@ -29,21 +29,23 @@ public class BookServiceUnitTest {
 	BookDAO bookDao;
 
 	BookServiceImpl bookService;
+	List<Book> books;
 	Properties prop = new Properties();
 
 	@Before
 	public void init() {
 		bookService = new BookServiceImpl(bookDao);
+		books = createMockBooksList();
 		try (InputStream input = new FileInputStream("./config.properties")) {
 			prop.load(input);
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
 	}
+
 	@DisplayName("On call to list library books")
 	@Test
 	public void testMethodforLibraryBooks() {
-		List<Book> books = createMockBooksList();
 		// arrange
 		when(bookDao.getLibraryBooks()).thenReturn(books);
 		// Act
@@ -51,10 +53,10 @@ public class BookServiceUnitTest {
 		// Assert
 		Assert.assertEquals(prop.getProperty("book.return"), books, response);
 	}
+
 	@DisplayName("On call to list borrowed books")
 	@Test
 	public void testMethodtforBorrowedBooks() {
-		List<Book> books = createMockBooksList();
 		// arrange
 		when(bookDao.getBorrowedBooks()).thenReturn(books);
 		// Act
@@ -104,6 +106,49 @@ public class BookServiceUnitTest {
 		// Assert
 		Assert.assertEquals(prop.getProperty("book.notexists"), HttpStatus.BAD_REQUEST, response.getStatusCode());
 
+	}
+
+	@DisplayName("On request to return a book")
+	@Test
+	public void testReturnBook() {
+		testBookExistsForReturn();
+		testBookBorrowedForReturn();
+	}
+
+	private void testBookBorrowedForReturn() {
+		ResponseEntity<String> responseEntity = new ResponseEntity<String>("Book is already borrowed",
+				HttpStatus.BAD_REQUEST);
+		// arrange
+		when(bookDao.returnBook("12345")).thenReturn(responseEntity);
+		// Act
+		ResponseEntity<String> response = bookService.returnBook("12345");
+		// Assert
+		Assert.assertEquals(prop.getProperty("book.borrowed"), HttpStatus.BAD_REQUEST, response.getStatusCode());
+
+	}
+
+	private void testBookExistsForReturn() {
+		ResponseEntity<String> responseEntity = new ResponseEntity<String>("Book Does Not Exist",
+				HttpStatus.BAD_REQUEST);
+		// arrange
+		when(bookDao.returnBook("12345")).thenReturn(responseEntity);
+		// Act
+		ResponseEntity<String> response = bookService.returnBook("12345");
+		// Assert
+		Assert.assertEquals(prop.getProperty("book.notexists"), HttpStatus.BAD_REQUEST, response.getStatusCode());
+
+	}
+
+	@DisplayName("On request to return all books")
+	@Test
+	public void testReturnAllBooks() {
+		ResponseEntity<String> responseEntity = new ResponseEntity<String>("Success", HttpStatus.OK);
+		// arrange
+		when(bookDao.returnAllBooks()).thenReturn(responseEntity);
+		// Act
+		ResponseEntity<String> response = bookService.returnAllBooks();
+		// Assert
+		Assert.assertEquals(prop.getProperty("returnAll.success"), HttpStatus.OK, response.getStatusCode());
 	}
 
 	private List<Book> createMockBooksList() {

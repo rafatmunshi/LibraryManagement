@@ -11,7 +11,6 @@ Library BackEnd-
 3. Open provided Tomcat 8.5/bin and run startup. (it has the required war file in its webapp folder so runs the project on startup on localhost:8080 by default)
 4. Install and start MySQL. (works with default settings. username- "root", blank password on localhost:3306)
 5. Import in it the library.sql file provided. This has the table and entries needed to run the BackEnd Integration tests.
-(Please note, after one run of the integration tests, the table state has to be reset back to the earlier state- borrower_id has to be made 0 for both book copies to rerun the integration tests again successfully)
 6. To check the APIs only, do the appropriate endpoint calls from Postman.
 
 Story 1-
@@ -87,7 +86,7 @@ ID | name | author | borrower_id
 
 ID is the primary key here and the remaining columns are functionally dependent on the primary key. borrower_id has a one to many relation with book ID. This makes this table to be in Boyce Codd Normalised Form of the relational database.
 
-In the Java Spring Project, Dependency Injection and MVC design pattern is used.
+In the Java Spring Project, Dependency Inversion and MVC design pattern is used.
 
 API design-
 To get all the books available in the Library-
@@ -178,14 +177,48 @@ assigns one copy at random of the bookid whose borrower_id was 0, to the current
 GET /{userid}/borrowedBookList
 returns only books which have copies with borrower_id same as the user_id (1 in this case), using the same response body structure with id meaning the book_id as before
 No change required in API response structure and hence the FrontEnd handling the response as generating the API response is dealt with in the BackEnd using appropriate SQL join queries between the two tables and refactoring the Model Java Class to now map to the other table's column value instead, from the SQL query result.
+From the UI, the user is not able to borrow the same book multiple times or more than two books as the state always changes and is disallowed. From the API endpoint, if the user is trying to borrow the same book again, a BAD_REQUEST response with message "Book is already borrowed" is returned (Backend handling as POST is not idempotent). If the user tries to borrow a book which does not exist in the books table, using the endpoint, the response BAD_REQUEST "Book Does Not Exist" is returned.
+
+Story 4-
+User can return books to the library
+Given , I have 2 books in my borrowed list
+When , I return one book to the library
+Then , the book is removed from my borrowed list
+And , the library reflects the updated stock of the book
+Given , I have 2 books in my borrowed list
+When , I return both books to the library
+Then , my borrowed list is empty
+And , the library reflects the updated stock of the books
+
+UI steps to see in browser-
+In the borrowed books list view, a return button is added for each book in the borrowed list. On click of that, the book is returned and is removed from the borrowed list of the user. Using the Return All button, both the books is returned and the borrowed list becomes empty. If there is any server error in both cases, it is alerted to the user.
+After the Return/Return All, the browser reloads to display the returned books for borrowing again in the library books list view.
+
+Design considerations-
+The Table structures are the same as before. When the book/s is returned, the borrower_id is reset to 0 for the book/s copy borrowed.
+
+Assumptions-
+The state of the database is maintained and we always find the entry of the copy where book_id and borrower_id matches, for the reset operation to take place for returning. 
+
+API design-
+POST /{userid}/return/{bookid} 
+return the book with bookid of the user with userid to the library
+POST /{userid}/returnAll
+returns all books (2 in this story's case) borrowed by the user with userid to the library 
+
+From the UI, the user is not able to return the same book multiple times as the state always changes. From the API endpoint, if the user is trying to return the same book again, a BAD_REQUEST response with message "Book to be returned is not borrowed" is returned (Backend handling as POST is not idempotent). If the user tries to return a book which does not exist in the books table, using the endpoint, the response BAD_REQUEST "Book Does Not Exist" is returned.
 
 Coding Best Practices used-
 Two different UI page views are created for separation of concerns.
 All JUnit tests have display and assert messages in such a way as to form well readable english sentences.
 Some comments are added only for assignment demo purposes.
-Java Class Structure is created in such a way that levels of abstraction are achieved with the Controller, Service and DAO layer. This makes it more maintainable. Having interfaces like Service, DAO and their implementation classes- ServiceImpl, DAOImpl differently helps us to program to an interface instead of implementation so that we may extend instead of modify or use another implementation. This gives flexibility and maintainability.
-Dont Repeat Yourself- properties file used to keep repeated strings for Java project, creation of smaller helper methods, use of react axios global config parameter for default base URL for API calls
+Java Class Structure is created in such a way that levels of abstraction are achieved with the Controller, Service and DAO layer. This makes it more maintainable. Having interfaces like Service, DAO and their implementations- ServiceImpl, DAOImpl differently helps us to program to an interface instead of implementation so that we may be able to extend instead of modify; or use another implementation for the interfaces without changing anything where those interfaces are used (for dependency inversion). This gives flexibility and maintainability.
+Dont Repeat Yourself- properties file used to keep repeated strings for Java project, creation of smaller helper methods, use of react axios global config parameter for default base URL for API calls in all other files
 Test Driven Development
 Keep it Simple
 You Ain't Gonna Need It
 SOLID
+
+Future work-
+For the Front End, instead of a simple alert, a react modal could be implemented for better UX.
+The functionality for different user ids can be incorporated with authentication and concurrency in further stories.

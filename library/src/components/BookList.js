@@ -6,7 +6,7 @@ import Book from "./Book";
 class BookList extends Component {
   render() {
     return this.props.bookList.map((book) => (
-      <Book key={book.id} book={book} borrowIt={this.props.borrowIt} />
+      <Book key={book.id} book={book} borrowIt={this.props.borrowIt} returnIt={this.props.returnIt} />
     ));
   }
 }
