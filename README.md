@@ -83,7 +83,9 @@ For this story only the books available to be borrowed are to be displayed in th
 
 - Architecture- The Front End is decoupled from the BackEnd. The Front End makes the REST API calls to the BackEnd which deals with the Database to give the correct response as expected. This decoupling avoids tight cohesion and provides more flexibility and maintainability.  
 The Architecture is depicted in the Architecture.png image.  
+![](https://github.com/rafatmunshi/LibraryManagement/raw/main/Architecture.png)
 The Class diagram is provided as a classDiagram image.  
+![](https://github.com/rafatmunshi/LibraryManagement/raw/main/classDiagram.png)
 
 - The Table structure for the Books table is-
 ```
